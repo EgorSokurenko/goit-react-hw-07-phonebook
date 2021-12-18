@@ -1,39 +1,53 @@
 import "./ContactList.css";
-import propTypes from "prop-types";
+
 import { useSelector, useDispatch } from "react-redux";
-import * as actions from "../../redux/Contact/contact-action";
+import {
+  asyncDeleteContact,
+  asyncGetContact,
+} from "../../redux/Contact/contact-operation";
+import { useEffect } from "react";
 
 export default function ContactList() {
-  const contacts = useSelector((state) => state.items);
+  const contacts = useSelector((state) => state.items.contacts);
+  const isLoading = useSelector((state) => state.items.isLoading);
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
+  let visibleContacts = [];
+  if (contacts) {
+    visibleContacts = contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(filter.toLowerCase())
+    );
+  }
 
-  const visibleContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  useEffect(() => {
+    dispatch(asyncGetContact());
+  }, [dispatch]);
   return (
-    <ul className="contactList">
-      {visibleContacts &&
-        visibleContacts.map((contact) => {
-          return (
-            <li className="contactItem" key={contact.id}>
-              <div className="contactBlock">
-                <sapn>{contact.name}</sapn>
-                <sapn className="nubmer">{contact.number}</sapn>
-              </div>
+    <>
+      {!isLoading && <h2>Loading</h2>}
+      <ul className="contactList">
+        {visibleContacts &&
+          visibleContacts.map((contact) => {
+            return (
+              <li className="contactItem" key={contact.id}>
+                <div className="contactBlock">
+                  <span>{contact.name}</span>
+                  <span className="nubmer">{contact.phone}</span>
+                </div>
 
-              <button
-                className="deleteBotton"
-                onClick={() => {
-                  dispatch(actions.deleteContact(contact.id));
-                }}
-                type="button"
-              >
-                Delete
-              </button>
-            </li>
-          );
-        })}
-    </ul>
+                <button
+                  className="deleteBotton"
+                  onClick={() => {
+                    dispatch(asyncDeleteContact(contact.id));
+                  }}
+                  type="button"
+                >
+                  Delete
+                </button>
+              </li>
+            );
+          })}
+      </ul>
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import propTypes from "prop-types";
 import "./ContactForm.css";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/Contact/contact-action";
+import { asyncAddContact } from "../../redux/Contact/contact-operation";
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
@@ -22,7 +22,7 @@ export default function ContactForm() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addContact(name, number));
+    dispatch(asyncAddContact(name, number));
     setNumber("");
     setName("");
   };
