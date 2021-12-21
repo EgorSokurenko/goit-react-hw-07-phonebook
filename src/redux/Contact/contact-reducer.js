@@ -15,7 +15,7 @@ const ContactState = null;
 
 const contacts = createReducer(ContactState, {
   [getContactSuccess]: (state, { payload }) => payload,
-  [addContactSuccess]: (state, { payload }) => payload,
+  [addContactSuccess]: (state, { payload }) => [...state, payload],
   [deleteContactSuccess]: (state, { payload }) => payload,
 });
 const isLoading = createReducer(false, {

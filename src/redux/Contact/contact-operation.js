@@ -22,24 +22,11 @@ export const asyncAddContact = (name, phone) => async (dispatch) => {
   dispatch(addContactRequest());
   const newContact = { name, phone };
   try {
-    const contacts = await axios.get(
-      "https://61bc594cd8542f00178246b9.mockapi.io/contacts/contacts"
-    );
-    const reallyContacts = contacts.data;
-    if (
-      reallyContacts.find(
-        (contact) => contact.name.toLowerCase() === name.toLowerCase()
-      )
-    ) {
-      alert(`${name} is already in contacts`);
-      return;
-    }
-
     const addContact = await axios.post(
       "https://61bc594cd8542f00178246b9.mockapi.io/contacts/contacts",
       newContact
     );
-    dispatch(addContactSuccess([...reallyContacts, addContact.data]));
+    dispatch(addContactSuccess(addContact.data));
   } catch (error) {
     console.log(error);
     dispatch(addContactError(error));
