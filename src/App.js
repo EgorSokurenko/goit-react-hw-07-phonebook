@@ -1,26 +1,18 @@
-import ContactForm from "./components/ContactForm";
-import Filter from "./components/Filter/";
-import ContactList from "./components/ContactList/";
-
-// const useContactsLocalStorage = (key) => {
-//   console.log(window.localStorage.getItem(key));
-//   const [state, setState] = useState(() => {
-//     return JSON.parse(window.localStorage.getItem(key)) ?? [];
-//   });
-//   useEffect(() => {
-//     localStorage.setItem(key, JSON.stringify(state));
-//   }, [key, state]);
-//   return [state, setState];
-// };
+import { lazy, Suspense } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+const ContactForm = lazy(() => import("./components/ContactForm"));
+const Filter = lazy(() => import("./components/Filter/"));
+const ContactList = lazy(() => import("./components/ContactList/"));
 
 export default function App() {
   return (
     <div>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
+      <h1>header</h1>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<ContactForm />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
