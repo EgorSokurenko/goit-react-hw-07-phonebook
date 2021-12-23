@@ -13,12 +13,12 @@ import {
 
 const ContactState = null;
 
-const contacts = createReducer(ContactState, {
+export const contacts = createReducer(ContactState, {
   [getContactSuccess]: (state, { payload }) => payload,
   [addContactSuccess]: (state, { payload }) => [...state, payload],
   [deleteContactSuccess]: (state, { payload }) => payload,
 });
-const isLoading = createReducer(false, {
+export const isLoading = createReducer(false, {
   [addContactRequest]: () => true,
   [addContactError]: () => false,
   [deleteContactRequest]: () => true,
@@ -26,8 +26,8 @@ const isLoading = createReducer(false, {
   [getContactRequest]: () => true,
   [getContactError]: () => false,
 });
-const contactReducer = combineReducers({
-  contacts,
-  isLoading,
+export const error = createReducer(null, {
+  [addContactError]: (_, payload) => `AddContactError: ${payload}`,
+  [deleteContactError]: (_, payload) => `deleteContactError: ${payload}`,
+  [getContactError]: (_, payload) => `getContactError: ${payload}`,
 });
-export default contactReducer;

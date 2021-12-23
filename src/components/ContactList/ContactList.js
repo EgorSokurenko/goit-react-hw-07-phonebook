@@ -8,8 +8,8 @@ import {
 import { useEffect } from "react";
 
 export default function ContactList() {
-  const contacts = useSelector((state) => state.items.contacts);
-  const isLoading = useSelector((state) => state.items.isLoading);
+  const contacts = useSelector((state) => state.items);
+  const isLoading = useSelector((state) => state.isLoading);
   const filter = useSelector((state) => state.filter);
   const dispatch = useDispatch();
   let visibleContacts = [];
